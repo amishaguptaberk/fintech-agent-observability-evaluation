@@ -20,9 +20,9 @@ TODOs:
 
 Prerequisites:
   pip install guardrails-ai presidio-analyzer presidio-anonymizer
-  guardrails hub install hub://guardrails/regex_match
-  guardrails hub install hub://guardrails/toxic_language
-  guardrails hub install hub://guardrails/competitor_check
+  pip install guardrails-ai-regex-match
+  pip install guardrails-ai-toxic-language
+  pip install guardrails-ai-competitor-check
 """
 
 import os
@@ -107,7 +107,7 @@ for query in input_tests:
 # Create a Guard that blocks SSN patterns (###-##-####) in output.
 #
 # from guardrails import Guard
-# from guardrails.hub import RegexMatch
+# from guardrails_ai.regex_match import RegexMatch
 #
 # guard = Guard().use(
 #     RegexMatch(regex="...", match_type="search", on_fail="exception")
@@ -151,7 +151,8 @@ else:
 #   - Toxic language (using ToxicLanguage validator)
 #   - Competitor mentions (Chase, Chase Bank, Wells Fargo, Citi, Bank of America, Capital One)
 #
-# from guardrails.hub import ToxicLanguage, CompetitorCheck
+# from guardrails_ai.toxic_language import ToxicLanguage
+# from guardrails_ai.competitor_check import CompetitorCheck
 #
 # guard = Guard().use_many(
 #     RegexMatch(...),

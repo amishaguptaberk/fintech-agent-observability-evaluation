@@ -9,9 +9,9 @@ Full working solution with four guardrail strategies:
 
 Prerequisites:
   pip install guardrails-ai presidio-analyzer presidio-anonymizer
-  guardrails hub install hub://guardrails/regex_match
-  guardrails hub install hub://guardrails/toxic_language
-  guardrails hub install hub://guardrails/competitor_check
+  pip install guardrails-ai-regex-match
+  pip install guardrails-ai-toxic-language
+  pip install guardrails-ai-competitor-check
 """
 
 import os
@@ -93,7 +93,9 @@ print("=" * 60)
 
 try:
     from guardrails import Guard
-    from guardrails.hub import RegexMatch, ToxicLanguage, CompetitorCheck
+    from guardrails_ai.regex_match import RegexMatch
+    from guardrails_ai.toxic_language import ToxicLanguage
+    from guardrails_ai.competitor_check import CompetitorCheck
 
     # --- SOLUTION 2: RegexMatch for SSN ---
     # NOTE: match_type="search" treats a regex match as VALID (pass).
@@ -155,9 +157,9 @@ try:
 except ImportError:
     print("  Guardrails AI not installed. Run:")
     print("    pip install guardrails-ai")
-    print("    guardrails hub install hub://guardrails/regex_match")
-    print("    guardrails hub install hub://guardrails/toxic_language")
-    print("    guardrails hub install hub://guardrails/competitor_check")
+    print("    pip install guardrails-ai-regex-match")
+    print("    pip install guardrails-ai-toxic-language")
+    print("    pip install guardrails-ai-competitor-check")
     guardrails_available = False
     full_guard = None
 

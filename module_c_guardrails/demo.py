@@ -29,8 +29,8 @@ This demo shows:
 
 Prerequisites:
   pip install guardrails-ai presidio-analyzer presidio-anonymizer
-  guardrails hub install hub://guardrails/regex_match
-  guardrails hub install hub://guardrails/competitor_check
+  pip install guardrails-ai-regex-match
+  pip install guardrails-ai-competitor-check
 """
 
 import os
@@ -308,7 +308,8 @@ Both run AFTER the LLM responds — they validate the OUTPUT.
 
 try:
     from guardrails import Guard
-    from guardrails.hub import RegexMatch, CompetitorCheck
+    from guardrails_ai.regex_match import RegexMatch
+    from guardrails_ai.competitor_check import CompetitorCheck
 
     # Regex-based validator: catches SSN patterns (free, fast)
     # RegexMatch with match_type="search" treats a match as VALID.
@@ -367,8 +368,8 @@ try:
 except ImportError:
     print("\n  Guardrails AI not installed. Run:")
     print("    pip install guardrails-ai")
-    print("    guardrails hub install hub://guardrails/regex_match")
-    print("    guardrails hub install hub://guardrails/competitor_check")
+    print("    pip install guardrails-ai-regex-match")
+    print("    pip install guardrails-ai-competitor-check")
     print("  Skipping Guardrails AI demo.\n")
     guardrails_ai_available = False
 
