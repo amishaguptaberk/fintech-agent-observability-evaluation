@@ -96,19 +96,16 @@ Additionally, Presidio requires the spaCy NER model for detecting names, address
 python -m spacy download en_core_web_lg
 ```
 
-Before installing hub validators, you need a free Guardrails Hub token:
-
-1. Go to https://hub.guardrailsai.com/keys and sign up / log in
-2. Copy your token
-3. Run `guardrails configure` and paste the token when prompted
-
-Then install the validators:
+CompetitorCheck runs a local transformer NER model, which is also distributed separately:
 
 ```bash
-guardrails hub install hub://guardrails/regex_match
-guardrails hub install hub://guardrails/toxic_language
-guardrails hub install hub://guardrails/competitor_check
+python -m spacy download en_core_web_trf
 ```
+
+The validators (`RegexMatch`, `ToxicLanguage`, `CompetitorCheck`) are public PyPI packages
+(`guardrails-ai-regex-match`, `guardrails-ai-toxic-language`, `guardrails-ai-competitor-check`)
+already listed in `requirements.txt`. Guardrails no longer needs an account, API key, or
+`guardrails configure` step, and the old `guardrails hub install` command no longer works.
 
 ```bash
 # Run from the project root directory
