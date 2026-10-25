@@ -188,26 +188,23 @@ LANGCHAIN_PROJECT=fintech-support-agent
 
 Get your LangSmith API key at [smith.langchain.com](https://smith.langchain.com) (free Developer plan — 1 seat, 5K traces/month).
 
-### 7. Install Guardrails Hub validators (Module C)
+### 7. Download spaCy models (Module C)
 
 ```bash
 pip install -r requirements.txt
 python -m spacy download en_core_web_lg
 ```
 
-Before installing hub validators, you need a free Guardrails Hub token:
-
-1. Go to https://hub.guardrailsai.com/keys and sign up / log in
-2. Copy your token
-3. Run `guardrails configure` and paste the token when prompted
-
-Then install the validators:
+CompetitorCheck runs a local transformer NER model, which is also distributed separately:
 
 ```bash
-guardrails hub install hub://guardrails/regex_match
-guardrails hub install hub://guardrails/toxic_language
-guardrails hub install hub://guardrails/competitor_check
+python -m spacy download en_core_web_trf
 ```
+
+The validators (`RegexMatch`, `ToxicLanguage`, `CompetitorCheck`) are public PyPI packages
+(`guardrails-ai-regex-match`, `guardrails-ai-toxic-language`, `guardrails-ai-competitor-check`)
+already listed in `requirements.txt`. Guardrails no longer needs an account, API key, or
+`guardrails configure` step, and the old `guardrails hub install` command no longer works.
 
 > **Note**: Presidio requires the spaCy `en_core_web_lg` model for NER-based PII detection. The `spacy download` command above installs it (~560 MB).
 
@@ -367,7 +364,8 @@ The pinned versions in `requirements.txt` are tested to work together. If you se
 |---|---|---|
 | `langsmith` | `<0.3,>=0.1.17` | `langchain` 0.3.x requires `langsmith<0.3` |
 | `python-dotenv` | `>=1.1.1` | `deepeval>=3.8.9` requires `python-dotenv>=1.1.1` |
-| `guardrails-ai` | Installed from GitHub `@v0.10.0` | PyPI is quarantined due to a supply chain attack (CVE-2026-45758). v0.10.0 from GitHub is clean. |
+| `guardrails-ai` | Installed from GitHub `@v0.6.0` | PyPI is quarantined due to a supply chain attack (CVE-2026-45758). The GitHub release is clean. |
+| `preshed` | `<3.0.14` | 3.0.14 makes `spacy.load()` fail with `OverflowError: Python int too large to convert to C ssize_t` |
 
 > **Tip**: `langchain-core` and `langchain-text-splitters` should **not** be pinned directly — they are resolved automatically as transitive dependencies of `langchain` and `langchain-openai`.
 
@@ -480,14 +478,12 @@ LANGCHAIN_API_KEY=lsv2_pt_your-key
 pip install deepeval
 ```
 
-**Guardrails Hub validators not found**
+**`ModuleNotFoundError: No module named 'guardrails_ai'`**
 ```bash
-pip install -r requirements.txt  # installs guardrails-ai from GitHub (PyPI is quarantined)
-guardrails configure  # paste your free token from https://hub.guardrailsai.com/keys
-guardrails hub install hub://guardrails/regex_match
-guardrails hub install hub://guardrails/toxic_language
-guardrails hub install hub://guardrails/competitor_check
+pip install -r requirements.txt  # guardrails-ai from GitHub plus the validator packages from PyPI
 ```
+`Failed to resolve 'hub.api.guardrailsai.com'` means code is still importing from `guardrails.hub`
+or running `guardrails hub install`. The hub API is retired; import from `guardrails_ai.<validator>`.
 
 **Presidio not installed**
 ```bash
